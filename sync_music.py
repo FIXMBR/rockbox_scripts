@@ -8,28 +8,28 @@ def sync_music(source_directory: str, target_directory: str) -> None:
     # with an iTunes library folder, and I don't want to
     # touch the source directory
     with tempfile.TemporaryDirectory() as tmpdir:
-        print("Copying files to temporary directory using rsync...")
-        sysrsync.run(
-            source=source_directory,
-            destination=tmpdir,
-            sync_source_contents=True,
-            options=[
-                "-ahS",
-                "--delete",
-                "--inplace",
-                "--no-compress",
-                "--no-p",
-                "--no-g",
-                "--no-o",
-            ],
-        )
+        # print("Copying files to temporary directory using rsync...")
+        # sysrsync.run(
+        #     source=source_directory,
+        #     destination=tmpdir,
+        #     sync_source_contents=True,
+        #     options=[
+        #         "-ahS",
+        #         "--delete",
+        #         "--inplace",
+        #         "--no-compress",
+        #         "--no-p",
+        #         "--no-g",
+        #         "--no-o",
+        #     ],
+        # )
 
-        print("Extracting covers...")
-        album_art_fix.main(tmpdir)
+        # print("Extracting covers...")
+        # album_art_fix.main(tmpdir)
 
         print("Copying files to target directory...")
         sysrsync.run(
-            source=tmpdir,
+            source=source_directory,
             destination=target_directory,
             sync_source_contents=True,
             options=[

@@ -88,8 +88,11 @@ def organize_music_files(root_dir: str):
 def process_cover_image(image_path: str):
     try:
         with Image.open(image_path) as img:
+            wid, hgt = img.size
+            if(wid < 220 or hgt < 220):
+                raise (UnidentifiedImageError("Image has correct size"))
             img = img.convert("RGB")
-            img = img.resize((200, 200))
+            img.thumbnail((200, 200))
             img.save(image_path, "JPEG", quality=100, subsampling=0)
             print(
                 f"Modified '{os.path.basename(image_path)}' in {os.path.dirname(image_path)}"
@@ -114,6 +117,7 @@ def process_images(root_dir: str):
 
             if os.path.exists(cover_path) and os.path.getsize(cover_path) > 0:
                 print(f"\nProcessing folder: {root}")
+                print(f"\nCurrent image path: {cover_path}")
                 process_cover_image(cover_path)
             else:
                 handle_audio_files(
